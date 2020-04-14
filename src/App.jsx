@@ -10,6 +10,8 @@ import Pertama from './pertama.jpg';
 import Marineford from './marineford.png';
 import WholeCake from './wholecake.jpg';
 import Wano from './wano.png';
+import InputScreen from './views/screen/inputSreen'
+import LoginMenu from './views/component/loginMenu'
 
 import { render } from '@testing-library/react';
 
@@ -76,9 +78,12 @@ function App() {
 
       <h1>Halo Dunia</h1>
       {/* <h2 style={{border: "1px solid blue", marginTop: "30px"}}>tes tulisan</h2> */}
-      <div className="row">
+      {/* <div className="row">
         {renderArr()}
-      </div>
+      </div> */}
+      {/* <CounterScreen /> */}
+      {/* <InputScreen /> */}
+      <LoginMenu/>
 
     </div>
   );
