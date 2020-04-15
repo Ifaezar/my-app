@@ -3,31 +3,32 @@ import React from 'react'
 class LoginMenu extends React.Component {
     state = {
         userRegis: '',
-        userData:[],
-        passData:[],
+        userData: [],
+        passData: [],
         passRegis: '',
         passRepeat: '',
         userLogin: '',
         passLogin: '',
-        kondisi: 0
+        kondisi: 0,
+        username:''
     }
     render() {
-        const { userRegis, userData,passData, passRegis, passRepeat, userLogin, passLogin, kondisi} = this.state
+        const { userRegis, userData, passData, passRegis, passRepeat, userLogin, passLogin, kondisi, username } = this.state
         const inputHandler = (event, field) => {
             this.setState({ [field]: event.target.value })
         }
-       
+
         const registerMenu = () => {
-            
+
             if (passRegis == passRepeat) {
-                this.setState({userData:userData.concat([userRegis])})
-                this.setState({passData:passData.concat([passRegis])})
+                this.setState({ userData: userData.concat([userRegis]) })
+                this.setState({ passData: passData.concat([passRegis]) })
                 this.setState({ kondisi: 0 })
-                document.getElementById("user").value=''
-                document.getElementById("pass").value=''
-                document.getElementById("passRep").value=''
+                this.setState({userRegis:''})
+                this.setState({passRegis:''})
+                this.setState({passRepeat:''})
                 alert("selamat kamu berhasil membuat akun")
-                
+
             } else {
                 alert("mohon maaf password yang anda masukkan salah")
             }
@@ -40,9 +41,10 @@ class LoginMenu extends React.Component {
                     this.setState({ kondisi: 1 })
                 }
             }
-            if(a == 1){
-                document.getElementById("userLog").value='' 
-                document.getElementById("passLog").value=''
+            if (a == 1) {
+                this.setState({username: userLogin})
+                this.setState({userLogin:''})
+                this.setState({passLogin:''})
             }
             if (a < 1) {
                 alert("mohon maaf username dan passward masukkan salah")
@@ -60,16 +62,37 @@ class LoginMenu extends React.Component {
                     }}>
                     <h2 className='mt-2 mb-3'>Register</h2>
                     <input
-                        onChange={(event) => { { inputHandler(event, "userRegis") } }}
-                        type="text" placeholder="Username" className="mb-1 form-control" id="user" style={{width:"100%"}} />
+                        onChange={(event) => {
+                            { inputHandler(event, "userRegis") }
+                        }}
+                        type="text"
+                        value={userRegis}
+                        placeholder="Username"
+                        className="mb-1 form-control"
+                        style={{ width: "100%" }} />
                     <input
-                        onChange={(event) => { { inputHandler(event, "passRegis") } }}
-                        type="text" placeholder="Password" className="mb-1 form-control" id="pass"style={{width:"100%"}}/>
+                        onChange={(event) => {
+                            { inputHandler(event, "passRegis") }
+                        }}
+                        type="text"
+                        placeholder="Password"
+                        value={passRegis}
+                        className="mb-1 form-control"
+                        style={{ width: "100%" }} />
                     <input
-                        onChange={(event) => { { inputHandler(event, "passRepeat") } }}
-                        type="text" placeholder="Repeat Password" className="mb-1 form-control" id="passRep" style={{width:"100%"}}/>
+                        onChange={(event) => {
+                            { inputHandler(event, "passRepeat") }
+                        }}
+                        type="text"
+                        value={passRepeat}
+                        placeholder="Repeat Password"
+                        className="mb-1 form-control"
+                        style={{ width: "100%" }} />
                     <br />
-                    <p type="button" onClick={registerMenu} className="btn btn-block btn-primary" style={{width:"100%"}}>Register</p>
+                    <p type="button"
+                        onClick={registerMenu}
+                        className="btn btn-block btn-primary"
+                        style={{ width: "100%" }}>Register</p>
 
                 </div>
                 <div className='container'
@@ -80,20 +103,35 @@ class LoginMenu extends React.Component {
                     }}>
                     <h2 className='mt-4 mb-3'>Login</h2>
                     <input
-                        onChange={(event) => { { inputHandler(event, "userLogin") } }}
-                        type="text" placeholder="Username" className="mb-1 form-control" id="userLog" style={{width:"100%"}}/>
+                        onChange={(event) => {
+                            { inputHandler(event, "userLogin") }
+                        }}
+                        type="text"
+                        value={userLogin}
+                        placeholder="Username"
+                        className="mb-1 form-control"
+                        style={{ width: "100%" }} />
                     <input
-                        onChange={(event) => { { inputHandler(event, "passLogin") } }}
-                        type="text" placeholder="Password" className="mb-1 form-control" id="passLog" style={{width:"100%"}}/>
+                        onChange={(event) => {
+                            { inputHandler(event, "passLogin") }
+                        }}
+                        type="text"
+                        placeholder="Password"
+                        value={passLogin}
+                        className="mb-1 form-control"
+                        style={{ width: "100%" }} />
                     <br />
-                    <p type="button" onClick={loginMenu} className="btn btn-primary" style={{width:"100%"}}>Login</p>
+                    <p type="button"
+                        onClick={loginMenu}
+                        className="btn btn-primary"
+                        style={{ width: "100%" }}>Login</p>
                 </div>
-                    {
-                        kondisi > 0 ? (
-                            <h1>Welcome {userRegis}</h1>
-                        ): null
-                    }
-                    
+                {
+                    kondisi > 0 ? (
+                        <h1>Welcome {username}</h1>
+                    ) : null
+                }
+
             </div>
         )
     }
