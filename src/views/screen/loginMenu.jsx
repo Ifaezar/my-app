@@ -214,7 +214,6 @@ class LoginMenu extends React.Component {
 
 const mapsStateToProps = (state) => {
     return {
-        todo: state.haha,
         user: state.user
     }
 }
