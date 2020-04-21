@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { link } from 'react-router-dom'
 import Axios from 'axios'
 import { API_URL } from '../../../constant/API'
+import swal from 'sweetalert'
 
 class RegisterMenu extends Component {
     state = {
@@ -10,6 +11,7 @@ class RegisterMenu extends Component {
         passRepeat: '',
         fullName: '',
         role: '',
+        isLoading: false
     }
     inputHandler = (event, field) => {
         this.setState({ [field]: event.target.value })
@@ -18,40 +20,46 @@ class RegisterMenu extends Component {
 
     registerMenu = () => {
         const { username, password, passRepeat, role, fullName } = this.state
-        Axios.get(`${API_URL}/user`, {
-            params: {
-                username: `${username}`
-            }
-        })
-            .then(res => {
-                if (res.data.length == 0) {
-                    if (password == passRepeat) {
-                        this.setState({ kondisi: 0 })
-                        Axios.post(`${API_URL}/user`, {
-                            username: `${username}`,
-                            password: `${password}`,
-                            fullName: `${fullName}`,
-                            role: `${role}`
-                        })
-                            .then(res => {
-                                console.log(res)
-                            })
-                            .catch(err => {
-                                console.log(err)
-                            })
-                        this.setState({ username: '' })
-                        this.setState({ password: '' })
-                        this.setState({ role: '' })
-                        this.setState({ fullName: '' })
-                        this.setState({ passRepeat: '' })
-                        alert("selamat kamu berhasil membuat akun")
-                    } else {
-                        alert("mohon maaf password yang anda masukkan salah")
-                    }
-                }else{
-                    alert(`mohon maaf ${username} sudah dipakai`)
+        this.setState({ isLoading: true })
+        setTimeout(() => {
+            Axios.get(`${API_URL}/user`, {
+                params: {
+                    username: `${username}`
                 }
             })
+                .then(res => {
+                    if (res.data.length == 0) {
+                        if (password == passRepeat) {
+                            this.setState({ kondisi: 0 })
+                            Axios.post(`${API_URL}/user`, {
+                                username: `${username}`,
+                                password: `${password}`,
+                                fullName: `${fullName}`,
+                                role: `${role}`
+                            })
+                                .then(res => {
+                                    console.log(res)
+                                })
+                                .catch(err => {
+                                    console.log(err)
+                                })
+                            this.setState({ username: '' })
+                            this.setState({ password: '' })
+                            this.setState({ role: '' })
+                            this.setState({ fullName: '' })
+                            this.setState({ passRepeat: '' })
+                            swal("selamat kamu berhasil membuat akun")
+                            this.setState({ isLoading: false })
+                        } else {
+                            swal("mohon maaf password yang anda masukkan salah")
+                            this.setState({ isLoading: false })
+                        }
+                    } else {
+                        swal(`mohon maaf ${username} sudah dipakai`)
+                        this.setState({ isLoading: false })
+                    }
+                })
+        }, 2000);
     }
 
     render() {
@@ -113,6 +121,7 @@ class RegisterMenu extends Component {
                     <br />
                     <p type="button"
                         onClick={this.registerMenu}
+                        disabled={this.state.isLoading}
                         className="btn btn-block btn-primary"
                         style={{ width: "100%" }}>Register</p>
 

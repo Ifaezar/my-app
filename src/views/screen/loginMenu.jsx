@@ -1,6 +1,9 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import { Link, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import user from '../../constant/redux/reducers/user'
+import { userInputHandler } from '../../constant/redux/actions'
 
 class LoginMenu extends React.Component {
     state = {
@@ -26,6 +29,7 @@ class LoginMenu extends React.Component {
             }
             this.setState({ userData: userData.concat([newData]) })
             this.setState({ kondisi: 0 })
+
             this.setState({ userRegis: '' })
             this.setState({ passRegis: '' })
             this.setState({ passRepeat: '' })
@@ -47,9 +51,10 @@ class LoginMenu extends React.Component {
         }
         if (a == 1) {
             this.setState({ username: userLogin })
+            this.props.onChangeUser(userLogin)
             this.setState({ userLogin: '' })
             this.setState({ passLogin: '' })
-            this.renderTable()
+            // this.renderTable()
         }
         if (a < 1) {
             alert("mohon maaf username dan passward masukkan salah")
@@ -143,7 +148,8 @@ class LoginMenu extends React.Component {
 
                     </div>
                     <br />
-                    {/* <div>
+                    <>
+                        {/* <div>
                     <center>
                         <table className="table" style={{ width: "50%" }}>
                             <thead>
@@ -159,6 +165,7 @@ class LoginMenu extends React.Component {
                         </table>
                     </center>
                 </div> */}
+                    </>
                     <br />
                     <div className='container'
                         style={{
@@ -205,4 +212,13 @@ class LoginMenu extends React.Component {
     }
 }
 
-export default LoginMenu
+const mapsStateToProps = (state) => {
+    return {
+        todo: state.haha,
+        user: state.user
+    }
+}
+const mapsDispatchToProps = {
+    onChangeUser: userInputHandler,
+}
+export default connect(mapsStateToProps, mapsDispatchToProps)(LoginMenu)

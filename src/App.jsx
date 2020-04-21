@@ -23,6 +23,9 @@ import RegisterMenu from './views/screen/weekend task/Register'
 import LoginMenu from './views/screen/weekend task/login'
 import profileMenu from './views/screen/weekend task/profile'
 import ProfileMenu from './views/screen/weekend task/profile';
+import TodoReduxScreen from './views/screen/todoredux';
+import LoginScreen from './views/screen/loginMenu'
+
 
 function App() {
   // let arr = ["Bandung", "Tangerang", "Surakarta"]
@@ -89,8 +92,12 @@ function App() {
       <Switch>
           <Route exact path="/" component={HomeScreen} />
           <Route exact path="/register" component={RegisterMenu} />
+          <Route exact path="/todo" component={TodoReduxScreen} />
           <Route exact path="/Login" component={LoginMenu} />
-          <Route exact path="/profile/:username" component={ProfileMenu}/>
+          <Route exact path="/Input" component={InputScreen} />
+          <Route exact path="/loginScreen" component={LoginScreen}/>
+          <Route exact path="/profile/:username" component={ProfileScreen}/>
+          {/* <Route exact path="/profile/:username" component={ProfileMenu}/> */}
           <Route path="*" component={PageNotFound}/>
       </Switch>
     </BrowserRouter>

@@ -1,19 +1,20 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 class InputScreen extends React.Component {
     state = {
         username: '',
         email: '',
         count: 0,
-        textbox:''
+        textbox: ''
     }
 
     inputHandler = (event, field) => {
         this.setState({ [field]: event.target.value })
     }
 
-    
+
 
     render() {
         const { username, email, textbox } = this.state
@@ -37,9 +38,17 @@ class InputScreen extends React.Component {
                 <p>{textbox.length} / 140</p>
                 <Link type="button" className="btn btn-primary" to={`/profile/${username}`}> Login
                 </Link>
+                <br/>
+                <h1>{this.props.halo.todoInput} </h1>
             </div>
         )
     }
 }
 
-export default InputScreen
+const mapStatetoProps = (state) => {
+    return{
+        halo: state.haha
+    }
+}
+
+export default connect(mapStatetoProps)(InputScreen)

@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import Axios from 'axios'
 import { API_URL } from '../../../constant/API'
+import swal from 'sweetalert'
+import { Spinner } from 'reactstrap'
 
 class LoginMenu extends Component {
     state = {
@@ -15,7 +17,7 @@ class LoginMenu extends Component {
     }
 
     loginMenu = () => {
-        const { username, password, kondisi } = this.state
+        const { username, password } = this.state
         let login = false
         Axios.get(`${API_URL}/user`)
             .then(res => {
@@ -25,10 +27,16 @@ class LoginMenu extends Component {
                         this.setState({ kondisi: true })
                     }
                 }
-                if (!login){
-                    alert("mohon maaf username dan password yang anda masukkan salah")
+                if (!login) {
+                    swal("mohon maaf username dan password yang anda masukkan salah")
                 }
+               
             })
+            .catch(err => {
+                console.log(err)
+            })
+
+           
     }
 
     render() {
@@ -67,9 +75,10 @@ class LoginMenu extends Component {
                             className="btn btn-primary"
                             style={{ width: "100%" }}>Login</p>
                     </div>
+                    
                 </div>
             )
-        }else{
+        } else {
             return <Redirect to={`/profile/${username}`} />
         }
     }
