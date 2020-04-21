@@ -4,6 +4,8 @@ import Axios from 'axios'
 import { API_URL } from '../../../constant/API'
 import swal from 'sweetalert'
 import { Spinner } from 'reactstrap'
+import { connect } from 'react-redux'
+import { userInputHandler } from '../../../constant/redux/actions'
 
 class LoginMenu extends Component {
     state = {
@@ -24,6 +26,7 @@ class LoginMenu extends Component {
                 for (let i = 0; i < res.data.length; i++) {
                     if ((res.data[i].username == username) && (res.data[i].password == password)) {
                         login = true
+                        this.props.onChangeUser(username)
                         this.setState({ kondisi: true })
                     }
                 }
@@ -79,9 +82,16 @@ class LoginMenu extends Component {
                 </div>
             )
         } else {
-            return <Redirect to={`/profile/${username}`} />
+            return <Redirect to={`/profileSukses/${username}`} />
         }
     }
 }
-
-export default LoginMenu
+const mapsStateToProps = (state) => {
+    return {
+        user: state.user
+    }
+}
+const mapsDispatchToProps = {
+    onChangeUser: userInputHandler,
+}
+export default connect(mapsStateToProps,mapsDispatchToProps)(LoginMenu)

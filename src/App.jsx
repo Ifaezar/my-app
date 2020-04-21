@@ -97,7 +97,7 @@ function App() {
           <Route exact path="/Input" component={InputScreen} />
           <Route exact path="/loginScreen" component={LoginScreen}/>
           <Route exact path="/profile/:username" component={ProfileScreen}/>
-          {/* <Route exact path="/profile/:username" component={ProfileMenu}/> */}
+          <Route exact path="/profileSukses/:username" component={ProfileMenu}/>
           <Route path="*" component={PageNotFound}/>
       </Switch>
     </BrowserRouter>

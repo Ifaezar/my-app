@@ -2,8 +2,8 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import user from '../../constant/redux/reducers/user'
 import { userInputHandler } from '../../constant/redux/actions'
+import user from '../../constant/redux/reducers/user'
 
 class LoginMenu extends React.Component {
     state = {
