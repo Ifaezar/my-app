@@ -3,6 +3,8 @@ import { link } from 'react-router-dom'
 import Axios from 'axios'
 import { API_URL } from '../../../constant/API'
 import swal from 'sweetalert'
+import { registerHandler } from '../../../constant/redux/actions'
+import { connect } from 'react-redux'
 
 class RegisterMenu extends Component {
     state = {
@@ -19,47 +21,18 @@ class RegisterMenu extends Component {
 
 
     registerMenu = () => {
+        // this.setState({ isLoading: true })
+        // setTimeout(() => {
         const { username, password, passRepeat, role, fullName } = this.state
-        this.setState({ isLoading: true })
-        setTimeout(() => {
-            Axios.get(`${API_URL}/user`, {
-                params: {
-                    username: `${username}`
-                }
-            })
-                .then(res => {
-                    if (res.data.length == 0) {
-                        if (password == passRepeat) {
-                            this.setState({ kondisi: 0 })
-                            Axios.post(`${API_URL}/user`, {
-                                username: `${username}`,
-                                password: `${password}`,
-                                fullName: `${fullName}`,
-                                role: `${role}`
-                            })
-                                .then(res => {
-                                    console.log(res)
-                                })
-                                .catch(err => {
-                                    console.log(err)
-                                })
-                            this.setState({ username: '' })
-                            this.setState({ password: '' })
-                            this.setState({ role: '' })
-                            this.setState({ fullName: '' })
-                            this.setState({ passRepeat: '' })
-                            swal("selamat kamu berhasil membuat akun")
-                            this.setState({ isLoading: false })
-                        } else {
-                            swal("mohon maaf password yang anda masukkan salah")
-                            this.setState({ isLoading: false })
-                        }
-                    } else {
-                        swal(`mohon maaf ${username} sudah dipakai`)
-                        this.setState({ isLoading: false })
-                    }
-                })
-        }, 2000);
+        const userData = {
+            username,
+            password,
+            passRepeat,
+            role,
+            fullName
+        }
+        this.props.onRegis(userData)
+        // }, 2000);
     }
 
     render() {
@@ -67,6 +40,7 @@ class RegisterMenu extends Component {
         return (
             <div className="justify-content-center text-center ">
                 <h1>REGISTER MENU</h1>
+                <h2>{this.props.user.errMsg}</h2>
                 <div className='container'
                     style={{
                         border: "1px solid black",
@@ -131,4 +105,13 @@ class RegisterMenu extends Component {
     }
 }
 
-export default RegisterMenu
+const mapsStateToProps = (state) => {
+    return {
+        user: state.user
+    }
+}
+const mapsDispatchToProps = {
+    onRegis: registerHandler
+}
+
+export default connect(mapsStateToProps, mapsDispatchToProps)(RegisterMenu)

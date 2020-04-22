@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { todoInputHandler, addtodoHandler } from '../../constant/redux/actions'
+import { todoInputHandler, addtodoHandler, loginHandler } from '../../constant/redux/actions'
 import { userInputHandler } from '../../constant/redux/actions'
 
 
@@ -26,7 +26,7 @@ class TodoReduxScreen extends Component {
                 >
                 </input>
                 <br /> */}
-                <input
+                {/* <input
                     type="text"
                     className="form-control"
                     placeholder="input Todo List"
@@ -41,7 +41,15 @@ class TodoReduxScreen extends Component {
                 </input>
                 {this.props.todo.todoList.map((val) => {
                     return <p>{val}</p>;
-                })}
+                })} */}
+                <p>Testing 1: {this.props.user.testing}</p>
+                <p>Testing 2: {this.props.user.testing2}</p>
+                <input
+                    type="button"
+                    className="btn btn-primary"
+                    value="testing"
+                    onClick={this.props.onLogin}
+                ></input>
             </div>
         )
     }
@@ -49,14 +57,16 @@ class TodoReduxScreen extends Component {
 
 const mapsStateToProps = (state) => {
     return {
-        todo: state.haha
+        todo: state.haha,
+        user: state.user
     }
 }
 
 const mapsDispatchToProps = {
     onChangeTodo: todoInputHandler,
     onChangeUser: userInputHandler,
-    onAddList: addtodoHandler
+    onAddList: addtodoHandler,
+    onLogin: loginHandler
 }
 
 

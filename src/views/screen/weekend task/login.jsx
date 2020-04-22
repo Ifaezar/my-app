@@ -5,7 +5,7 @@ import { API_URL } from '../../../constant/API'
 import swal from 'sweetalert'
 import { Spinner } from 'reactstrap'
 import { connect } from 'react-redux'
-import { userInputHandler } from '../../../constant/redux/actions'
+import { userInputHandler, loginHandler } from '../../../constant/redux/actions'
 
 class LoginMenu extends Component {
     state = {
@@ -20,26 +20,11 @@ class LoginMenu extends Component {
 
     loginMenu = () => {
         const { username, password } = this.state
-        let login = false
-        Axios.get(`${API_URL}/user`)
-            .then(res => {
-                for (let i = 0; i < res.data.length; i++) {
-                    if ((res.data[i].username == username) && (res.data[i].password == password)) {
-                        login = true
-                        this.props.onChangeUser(username)
-                        this.setState({ kondisi: true })
-                    }
-                }
-                if (!login) {
-                    swal("mohon maaf username dan password yang anda masukkan salah")
-                }
-               
-            })
-            .catch(err => {
-                console.log(err)
-            })
-
-           
+        const userData = {
+            username,
+            password
+        }
+        this.props.onLogin(userData)
     }
 
     render() {
@@ -48,6 +33,8 @@ class LoginMenu extends Component {
             return (
                 <div className="justify-content-center text-center ">
                     <h1>Login MENU</h1>
+                    <p>username :{this.props.user.username}</p>
+                    <p>{this.props.user.errMsg}}</p>
                     <div className='container'
                         style={{
                             border: "1px solid black",
@@ -78,7 +65,7 @@ class LoginMenu extends Component {
                             className="btn btn-primary"
                             style={{ width: "100%" }}>Login</p>
                     </div>
-                    
+
                 </div>
             )
         } else {
@@ -93,5 +80,6 @@ const mapsStateToProps = (state) => {
 }
 const mapsDispatchToProps = {
     onChangeUser: userInputHandler,
+    onLogin: loginHandler
 }
-export default connect(mapsStateToProps,mapsDispatchToProps)(LoginMenu)
+export default connect(mapsStateToProps, mapsDispatchToProps)(LoginMenu)
