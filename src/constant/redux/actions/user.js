@@ -40,13 +40,13 @@ export const registerHandler = (userData) => {
     return (dispatch) => {
         const { username, password, role, fullName, passRepeat } = userData
         Axios.get(`${API_URL}/user`, {
-            params:{
+            params: {
                 username
-            } 
+            }
         })
             .then(res => {
                 if (res.data.length == 0) {
-                    if(password == passRepeat){
+                    if (password == passRepeat) {
                         Axios.post(`${API_URL}/user`, {
                             username: `${username}`,
                             password: `${password}`,
@@ -59,15 +59,15 @@ export const registerHandler = (userData) => {
                                     payload: res.data
                                 })
                             })
-                    }else{
+                    } else {
                         dispatch({
-                            type:"ON_LOGIN_FAIL",
+                            type: "ON_LOGIN_FAIL",
                             payload: "Mohon maaf password salah"
                         })
                     }
-                }else{
+                } else {
                     dispatch({
-                        type:"ON_LOGIN_FAIL",
+                        type: "ON_LOGIN_FAIL",
                         payload: `Mohon maaf username ${username} sudah dipakai`
                     })
                 }
@@ -75,5 +75,39 @@ export const registerHandler = (userData) => {
             .catch(err => {
                 console.log(err)
             })
+    }
+}
+
+export const userKeepLogin = (userData) => {
+    return (dispatch) => {
+        Axios.get(`${API_URL}/user`, {
+            params: {
+                id: userData.id
+            }
+        })
+            .then((res) => {
+                console.log(res)
+                if (res.data.length > 0) {
+                    dispatch({
+                        type: "ON_LOGIN_SUCCESS",
+                        payload: res.data[0]
+                    })
+                } else {
+                    dispatch({
+                        type: "ON_LOGIN_FAIL",
+                        payload: "username atau password yang anda masukkan salah"
+                    })
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+}
+
+export const logOutHandler = () => {
+    return {
+        type: "ON_LOGOUT",
+        payload: ""
     }
 }

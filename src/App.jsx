@@ -1,5 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux'
 import Cookie from 'universal-cookie';
 import logo from './logo.svg';
 import './App.css';
@@ -26,12 +27,13 @@ import profileMenu from './views/screen/weekend task/profile'
 import ProfileMenu from './views/screen/weekend task/profile';
 import TodoReduxScreen from './views/screen/todoredux';
 import LoginScreen from './views/screen/loginMenu'
-import Cookies from 'universal-cookie';
+import { userKeepLogin } from './constant/redux/actions'
+
 
 const cookieObject = new Cookie();
 
 class App extends Component {
-  
+
   arrProduct = [
     {
       nama: "Arc Romance Dawn",
@@ -75,7 +77,7 @@ class App extends Component {
     },
   ]
 
-   renderArr = () => {
+  renderArr = () => {
     return this.arrProductarrProduct.map((val) => {
       return (
         // <CounterScreen kota = {val} />
@@ -87,27 +89,44 @@ class App extends Component {
     })
   }
 
-  render(){
+  componentDidMount() {
+    let cookieResult = cookieObject.get("authData")
+    if (cookieResult) {
+      this.props.userKeepLogin(cookieResult)
+    }
+  }
+
+  render() {
     return (
       <>
-      <BrowserRouter>
-      {/* <LifecycleScreen/> */}
-      <NavBar/>
-        <Switch>
+        <BrowserRouter>
+          {/* <LifecycleScreen/> */}
+          <NavBar />
+          <Switch>
             <Route exact path="/" component={HomeScreen} />
             <Route exact path="/register" component={RegisterMenu} />
             <Route exact path="/todo" component={TodoReduxScreen} />
             <Route exact path="/Login" component={LoginMenu} />
             <Route exact path="/Input" component={InputScreen} />
-            <Route exact path="/loginScreen" component={LoginScreen}/>
-            <Route exact path="/profile/:username" component={ProfileScreen}/>
-            <Route exact path="/profileSukses/:username" component={ProfileMenu}/>
-            <Route path="*" component={PageNotFound}/>
-        </Switch>
-      </BrowserRouter>
+            <Route exact path="/loginScreen" component={LoginScreen} />
+            <Route exact path="/profile/:username" component={ProfileScreen} />
+            <Route exact path="/profileSukses/:username" component={ProfileMenu} />
+            <Route path="*" component={PageNotFound} />
+          </Switch>
+        </BrowserRouter>
       </>
     );
   }
 }
 
-export default withRouter(App);
+const mapsStateToProps = (state) => {
+  return {
+    user: state.user
+  }
+}
+
+const mapsDispatchToProps = {
+  userKeepLogin
+}
+
+export default connect(mapsStateToProps, mapsDispatchToProps)(withRouter(App));

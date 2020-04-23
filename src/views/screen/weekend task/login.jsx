@@ -6,12 +6,22 @@ import swal from 'sweetalert'
 import { Spinner } from 'reactstrap'
 import { connect } from 'react-redux'
 import { userInputHandler, loginHandler } from '../../../constant/redux/actions'
+import Cookie from 'universal-cookie';
+
+const cookieObject = new Cookie();
 
 class LoginMenu extends Component {
     state = {
         username: '',
         password: '',
-        kondisi: false
+        isLogin: false
+    }
+
+    componentDidUpdate() {
+        if (this.props.user.id) {
+            cookieObject.set("authData", JSON.stringify(this.props.user))
+            
+        }
     }
 
     inputHandler = (event, field) => {
@@ -25,16 +35,19 @@ class LoginMenu extends Component {
             password
         }
         this.props.onLogin(userData)
+        this.setState({username:''})
+        this.setState({password:''})
+
     }
 
     render() {
-        const { username, password, kondisi } = this.state
-        if (!kondisi) {
+        const { username, password, isLogin } = this.state
+        if (!isLogin) {
             return (
                 <div className="justify-content-center text-center ">
                     <h1>Login MENU</h1>
                     <p>username :{this.props.user.username}</p>
-                    <p>{this.props.user.errMsg}}</p>
+                    <p>{this.props.user.errMsg}</p>
                     <div className='container'
                         style={{
                             border: "1px solid black",
@@ -65,11 +78,11 @@ class LoginMenu extends Component {
                             className="btn btn-primary"
                             style={{ width: "100%" }}>Login</p>
                     </div>
-
                 </div>
             )
         } else {
-            return <Redirect to={`/profileSukses/${username}`} />
+            return <div>.... yeay</div>
+            // return <Redirect to={`/profileSukses/${username}`} />
         }
     }
 }
