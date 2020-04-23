@@ -37,9 +37,6 @@ export default (state = init_state, action) => {
         return {
             ...state,
             username: action.payload,
-            fullName: action.payload,
-            id: action.payload,
-            role: action.payload,
             errMsg: "Anda Berhasil Log Out"
         }
     } else {
