@@ -35,9 +35,7 @@ export default (state = init_state, action) => {
         return { ...state, errMsg: action.payload }
     } else if (action.type == "ON_LOGOUT") {
         return {
-            ...state,
-            username: action.payload,
-            errMsg: "Anda Berhasil Log Out"
+            ...init_state,
         }
     } else {
         return { ...state }

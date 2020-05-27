@@ -108,6 +108,5 @@ export const userKeepLogin = (userData) => {
 export const logOutHandler = () => {
     return {
         type: "ON_LOGOUT",
-        payload: ""
     }
 }
